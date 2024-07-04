@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  pages: write
   id-token: write
 
 jobs:
@@ -26,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Compile TypeScript
+      - name: Build project with Vite
         run: yarn build
 
       - name: Archive production artifacts
@@ -41,16 +42,17 @@ jobs:
     needs: build
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.7
+
       - name: Download production artifacts
         uses: actions/download-artifact@v4.1.7
         with:
           name: build-artifacts
-          path: ./dist   
+          path: ./dist  
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-
-  
