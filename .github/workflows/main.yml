@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,7 +24,7 @@ jobs:
           node-version: '20.x'  
           
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Compile TypeScript
         run: npm run build
@@ -45,6 +49,7 @@ jobs:
       - name: Deploy React to GitHub Pages
         uses: bitovi/github-actions-react-to-github-pages@v1.2.4
         with:
+          install_command: yarn install
           build_command: npm run build
 
   
