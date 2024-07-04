@@ -27,13 +27,13 @@ jobs:
         run: yarn install
 
       - name: Compile TypeScript
-        run: npm run build
+        run: yarn build
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4.3.3
         with:
           name: build-artifacts
-          path: .
+          path: ./dist
           retention-days: 1
 
   deploy:
@@ -45,7 +45,7 @@ jobs:
         uses: actions/download-artifact@v4.1.7
         with:
           name: build-artifacts
-          path: .  
+          path: ./dist   
 
       - name: Deploy React to GitHub Pages
         uses: bitovi/github-actions-react-to-github-pages@v1.2.4
