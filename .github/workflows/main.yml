@@ -54,5 +54,7 @@ jobs:
       - name: Azure Static Web Apps Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          output_location: ./dist
-          repo_token: ${{secrets.TOKEN_STATIC_WEBAPP}}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: src
+          azure_static_web_apps_api_token: ${{secrets.TOKEN_STATIC_WEBAPP}}
