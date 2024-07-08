@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4.0.2
         with:
-          node-version: '20.x'  
+          node-version: ${{ vars.NODE_VERSION }}  
           
       - name: Install dependencies
         run: yarn install
@@ -34,8 +34,8 @@ jobs:
         uses: actions/upload-artifact@v4.3.3
         with:
           name: build-artifacts
-          path: ./dist
-          retention-days: 1
+          path: ${{ vars.BUILD_PATH }}
+          retention-days: ${{ vars.RETENTION_DAYS }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,12 +49,12 @@ jobs:
         uses: actions/download-artifact@v4.1.7
         with:
           name: build-artifacts
-          path: ./dist  
+          path: ${{ vars.BUILD_PATH }}  
 
       - name: Azure Static Web Apps Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: ./dist
+          app_location: ${{ vars.BUILD_PATH }}
           azure_static_web_apps_api_token: ${{secrets.TOKEN_STATIC_WEBAPP}}
